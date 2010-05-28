@@ -1,0 +1,7 @@
+# Compile
+org.eclipse.virgo.util=2.1.0.D-20100513115049
+
+# Test
+org.junit=4.7.0
+
+

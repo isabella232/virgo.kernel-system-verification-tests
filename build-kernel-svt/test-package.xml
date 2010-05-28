@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test-package">
+
+	<property name="test.staging.dir" value="${target.dir}/test-expanded"/>
+	<property name="test.package.dir" value="${test.staging.dir}/virgo-kernel"/>
+
+	<target name="test-package"
+			description="Runs svts on the kernel packaged build">
+    	<antcall target="unzip.package"/>
+	    <antcall target="test.do"/>
+	</target>
+
+	<target name="unzip.package">
+		<delete dir="${test.staging.dir}" quiet="true"/>
+		<mkdir dir="${test.staging.dir}"/>
+		<unzip dest="${test.staging.dir}">
+			<fileset dir="${basedir}/../build-kernel-svt/target">
+				<include name="**/virgo-kernel-*.zip"/>
+			</fileset>
+			<regexpmapper from="(virgo-kernel-[^/]*/)(.*)" to="virgo-kernel/\2" />
+		</unzip>
+		<chmod perm="755">
+			<fileset dir="${test.package.dir}/bin">
+				<include name="*.sh"/>
+			</fileset>
+		</chmod>
+		<chmod perm="600">
+			<fileset dir="${test.package.dir}/config">
+				<include name="org.eclipse.virgo.kernel.jmxremote.access.properties"/>
+			</fileset>
+		</chmod>
+	</target>
+
+</project>
